@@ -1,14 +1,20 @@
 import React, { Component } from "react";
-import "./styles.css";
+import "../styles.css"; // use "./styles.css" if the file sits in the same folder
 
 class App extends Component {
-  state = {
-    started: false,   // whether the ball should render
-    left: 0           // ball's left position in px
-  };
+  constructor(props) {
+    super(props);
+    // initial state (no class fields)
+    this.state = {
+      started: false,
+      left: 0
+    };
+    // bind methods (no arrow class properties)
+    this.buttonClickHandler = this.buttonClickHandler.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+  }
 
   componentDidMount() {
-    // Listen for ArrowRight key presses
     window.addEventListener("keydown", this.handleKeyDown);
   }
 
@@ -16,22 +22,20 @@ class App extends Component {
     window.removeEventListener("keydown", this.handleKeyDown);
   }
 
-  // Start button click -> show ball, hide button
-  buttonClickHandler = () => {
+  // show ball & hide start button
+  buttonClickHandler() {
     this.setState({ started: true });
-  };
+  }
 
-  // Move ball right by 5px on ArrowRight
-  handleKeyDown = (e) => {
+  // move ball 5px to the right on ArrowRight (keyCode 39)
+  handleKeyDown(e) {
     const code = e.keyCode || e.which;
-    const isArrowRight = code === 39 || e.key === "ArrowRight";
     if (!this.state.started) return;
-    if (isArrowRight) {
-      this.setState((prev) => ({ left: prev.left + 5 }));
+    if (code === 39) {
+      this.setState(prev => ({ left: prev.left + 5 }));
     }
-  };
+  }
 
-  // Decides whether to render the start button or the ball
   renderChoice() {
     const { started, left } = this.state;
 
@@ -45,8 +49,11 @@ class App extends Component {
 
     return (
       <div className="playground">
-        {/* Inline style controls dynamic position */}
-        <div className="ball" style={{ left: `${left}px` }} />
+        {/* inline left controls position; className must be 'ball' */}
+        <div
+          className="ball"
+          style={{ position: "absolute", left: `${left}px` }}
+        />
       </div>
     );
   }
