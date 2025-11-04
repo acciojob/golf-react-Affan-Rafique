@@ -1,71 +1,64 @@
 import React, { Component } from "react";
-import "../styles.css"; // use "./styles.css" if the file sits in the same folder
+import "../styles/App.css";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    // initial state (no class fields)
     this.state = {
-      started: false,
-      left: 0
+      renderBall: false,
+      posi: 0,
+      ballPosition: { left: "0px" },
     };
-    // bind methods (no arrow class properties)
+    this.renderChoice = this.renderBallOrButton.bind(this);
     this.buttonClickHandler = this.buttonClickHandler.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
-  componentDidMount() {
-    window.addEventListener("keydown", this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("keydown", this.handleKeyDown);
-  }
-
-  // show ball & hide start button
+  // Handles Start button click
   buttonClickHandler() {
-    this.setState({ started: true });
+    this.setState({ renderBall: true });
   }
 
-  // move ball 5px to the right on ArrowRight (keyCode 39)
-  handleKeyDown(e) {
-    const code = e.keyCode || e.which;
-    if (!this.state.started) return;
-    if (code === 39) {
-      this.setState(prev => ({ left: prev.left + 5 }));
+  // Handles Right Arrow key press
+  handleKeyDown(event) {
+    if (event.keyCode === 39) {
+      // ArrowRight key
+      this.setState((prevState) => {
+        const newPos = prevState.posi + 5;
+        return {
+          posi: newPos,
+          ballPosition: { left: newPos + "px" },
+        };
+      });
     }
   }
 
-  renderChoice() {
-    const { started, left } = this.state;
+  // Add event listener when component mounts
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleKeyDown);
+  }
 
-    if (!started) {
+  // Clean up event listener
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyDown);
+  }
+
+  // Chooses whether to show button or ball
+  renderBallOrButton() {
+    if (this.state.renderBall) {
+      return <div className="ball" style={this.state.ballPosition}></div>;
+    } else {
       return (
         <button className="start" onClick={this.buttonClickHandler}>
           Start
         </button>
       );
     }
-
-    return (
-      <div className="playground">
-        {/* inline left controls position; className must be 'ball' */}
-        <div
-          className="ball"
-          style={{ position: "absolute", left: `${left}px` }}
-        />
-      </div>
-    );
   }
 
   render() {
-    return (
-      <div className="game">
-        <h1 className="title">Golf Game</h1>
-        {this.renderChoice()}
-      </div>
-    );
+    return <div className="playground">{this.renderBallOrButton()}</div>;
   }
 }
 
-export default App;
+export default App;
