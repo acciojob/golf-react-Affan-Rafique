@@ -1,52 +1,5 @@
-/* Basic layout */
-* { box-sizing: border-box; }
-body { margin: 0; font-family: system-ui, Arial, sans-serif; background: #f6f7fb; }
+.game { max-width: 720px; margin: 32px auto; padding: 16px; text-align: center; }
+.start { padding: 10px 16px; background: #2563eb; color: #fff; border: 0; border-radius: 10px; cursor: pointer; }
+.playground { position: relative; height: 120px; border: 2px dashed #cbd5e1; border-radius: 12px; background: #fafafa; margin: 12px auto; overflow: hidden; }
+.ball { width: 50px; height: 50px; top: 35px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #66bb6a, #2e7d32); box-shadow: 0 8px 16px rgba(0,0,0,.2); }
 
-.game {
-  max-width: 720px;
-  margin: 32px auto;
-  padding: 16px;
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  box-shadow: 0 10px 24px rgba(0,0,0,.06);
-  text-align: center;
-}
-
-.title {
-  margin: 0 0 16px;
-}
-
-/* Start button (must be class 'start') */
-.start {
-  padding: 10px 16px;
-  font-weight: 700;
-  border: none;
-  border-radius: 10px;
-  background: #2563eb;
-  color: #fff;
-  cursor: pointer;
-}
-.start:hover { background: #1e4fd6; }
-
-/* Playground area where the ball moves */
-.playground {
-  position: relative;
-  height: 120px;
-  border: 2px dashed #cbd5e1;
-  border-radius: 12px;
-  background: #fafafa;
-  margin: 0 auto;
-  overflow: hidden;  /* prevent ball from spilling out visually */
-}
-
-/* Ball (must be class 'ball') */
-.ball {
-  position: absolute;   /* left is controlled inline by React */
-  top: 35px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #66bb6a, #2e7d32);
-  box-shadow: 0 8px 16px rgba(0,0,0,.2);
-}
